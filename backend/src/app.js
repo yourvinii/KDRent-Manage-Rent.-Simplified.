@@ -2,16 +2,21 @@ import express from "express";
 import cors from "cors";
 const app = express();
 
-// // routes
-import authRoutes from "./routes/authRoutes.js";
-
 // /* ---------- Global Middlewares ---------- */
+
 app.use(cors());
 app.use(express.json()); // to read JSON body
 app.use(express.urlencoded({ extended: true }));
 
-// /* ---------- Routes ---------- */
+// // routes
+import authRoutes from "./routes/authRoutes.js";
+import propertyRoutes from "./routes/propertyRoutes.js";
+
+
+// /* ----------Middleware & Routes ---------- */
 app.use("/api/auth/", authRoutes);
+app.use("/api/property/", propertyRoutes);
+
 
 // /* ---------- Health Check ---------- */
 app.get("/data", (req, res) => {
