@@ -38,21 +38,38 @@ const login = async (req, res) => {
     //Check User
     const user = await User.findOne({ email });
     if (!user) {
-      return res.status(400).json({ success: false, message: "User not found!" });
+      return res
+        .status(400)
+        .json({ success: false, message: "User not found!" });
     }
 
     //Compare Password
     const ok = await bcrypt.compare(password, user.password);
 
     if (!ok) {
-      return res.status(400).json({ success: false, message: "Incorrect Password" });
+      return res
+        .status(400)
+        .json({ success: false, message: "Incorrect Password" });
     }
 
     //Generate Token
 
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET_KEY);
+    const token = jwt.sign(
+      { _id: user._id, email: user.email },
+      process.env.JWT_SECRET_KEY,
+      { expiresIn: "7d" }
+    );
 
-    return res.json({ success: true, message: "Login Successful" });
+    return res.status(200).json({
+      success: true,
+      message: "Login Successful",
+      token,
+      user: {
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+      },
+    });
   } catch (error) {
     return res.status(400).json({ success: false, message: error.message });
   }
