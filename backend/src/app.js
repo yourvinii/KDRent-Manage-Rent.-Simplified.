@@ -11,12 +11,12 @@ app.use(express.urlencoded({ extended: true }));
 // // routes
 import authRoutes from "./routes/authRoutes.js";
 import propertyRoutes from "./routes/propertyRoutes.js";
-
+import tenantRoutes from "./routes/tenantRoutes.js";
 
 // /* ----------Middleware & Routes ---------- */
 app.use("/api/auth/", authRoutes);
 app.use("/api/property/", propertyRoutes);
-
+app.use("/api/tenant/", tenantRoutes);
 
 // /* ---------- Health Check ---------- */
 app.get("/data", (req, res) => {
