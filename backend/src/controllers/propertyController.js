@@ -14,13 +14,13 @@ const createProperty = async (req, res) => {
       monthlyRent,
     });
 
-    res.status(201).json({
+    return res.status(201).json({
       success: true,
       message: "Property created successfully",
       property,
     });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    return res.status(500).json({ success: false, message: error.message });
   }
 };
 
@@ -30,13 +30,13 @@ const getAllProperties = async (req, res) => {
   try {
     const properties = await Property.find().populate("ownerId", "name email");
 
-    res.status(200).json({
+    return res.status(200).json({
       success: true,
       count: properties.length,
       properties,
     });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    return res.status(500).json({ success: false, message: error.message });
   }
 };
 
@@ -49,11 +49,11 @@ const getProperty = async (req, res) => {
       "name email"
     );
     if (!property) {
-      res.status(400).json({ success: false, message: "Not property found" });
+      return res.status(400).json({ success: false, message: "Not property found" });
     }
-    res.json({ success: true, property });
+    return res.json({ success: true, property });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    return res.status(500).json({ success: false, message: error.message });
   }
 };
 
