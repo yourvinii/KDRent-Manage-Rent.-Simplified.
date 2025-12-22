@@ -1,10 +1,16 @@
 import { useState } from "react";
+import { loginUser } from "../../services/authService.js";
+import { useNavigate } from "react-router-dom";
 
 export default function Login() {
+  const navigate = useNavigate();
   const [user, setUser] = useState({
     email: "",
     password: "",
   });
+
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleInputData = (event) => {
     setUser((currData) => {
@@ -12,9 +18,27 @@ export default function Login() {
     });
   };
 
-  const handleSubimt = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log(user)
+    console.log(user);
+
+    try {
+      const data = await loginUser(user);
+      console.log("Login success", data);
+
+       // store token
+      localStorage.setItem("token", data.token);
+      // optional: store user
+      localStorage.setItem("user", JSON.stringify(data.user));
+
+      navigate("/dashboard"); // change
+
+    } catch (error) {
+      setError(error.message || "Login Failed");
+    } finally {
+      setLoading(false);
+    }
+
     setUser({
       email: "",
       password: "",
@@ -23,15 +47,18 @@ export default function Login() {
 
   return (
     <>
-      <h1>This is just a Login Page</h1>
-      <form onSubmit={handleSubimt}>
+      <h1>Login Page</h1>
+      <form onSubmit={handleSubmit}>
+      
         <div>
           <label htmlFor="email">Email</label>
           <input
             type="email"
-            placeholder="enter your email"
+            id="email"
+            placeholder="email"
             name="email"
             onChange={handleInputData}
+            value={user.email}
           />
         </div>
         <br />
@@ -39,13 +66,15 @@ export default function Login() {
           <label htmlFor="password">Password</label>
           <input
             type="password"
+            id="password"
             placeholder="password"
             name="password"
             onChange={handleInputData}
+            value={user.password}
           />
         </div>
         <br />
-        <button type="submit">Login</button>
+        <button type="submit">Submit</button>
       </form>
     </>
   );
