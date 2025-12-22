@@ -1,11 +1,17 @@
 import { useState } from "react";
+import { registerUser } from "../../services/authService.js";
+import { useNavigate } from "react-router-dom";
 
 export default function Register() {
+  const navigate = useNavigate();
   const [user, setUser] = useState({
     name: "",
     email: "",
     password: "",
   });
+
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleInputData = (event) => {
     setUser((currData) => {
@@ -13,9 +19,21 @@ export default function Register() {
     });
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     console.log(user);
+
+    try {
+      const data = await registerUser(user);
+      console.log("Register success", data);
+
+      navigate("/login");
+    } catch (error) {
+      setError(error.message || "Registration Failed");
+    } finally {
+      setLoading(false);
+    }
+
     setUser({
       name: "",
       email: "",
@@ -25,7 +43,7 @@ export default function Register() {
 
   return (
     <>
-    <h1>Register Page</h1>
+      <h1>Register Page</h1>
       <form onSubmit={handleSubmit}>
         <div>
           <label htmlFor="name">Full Name</label>
@@ -35,6 +53,7 @@ export default function Register() {
             placeholder="Enter Full Name"
             name="name"
             onChange={handleInputData}
+            value={user.name}
           />
         </div>
         <br />
@@ -46,17 +65,19 @@ export default function Register() {
             placeholder="email"
             name="email"
             onChange={handleInputData}
+            value={user.email}
           />
         </div>
         <br />
         <div>
-          <label htmlFor="passowrd">Password</label>
+          <label htmlFor="password">Password</label>
           <input
-            type="passowrd"
-            id="passowrd"
+            type="password"
+            id="password"
             placeholder="password"
             name="password"
             onChange={handleInputData}
+            value={user.password}
           />
         </div>
         <br />
