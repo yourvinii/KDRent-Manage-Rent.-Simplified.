@@ -1,8 +1,11 @@
-import { useState } from "react";
-import { loginUser } from "../../services/authService.js";
+import { useContext, useState } from "react";
+import {AuthContext} from "../../context/AuthContext.jsx";
 import { useNavigate } from "react-router-dom";
+// import { loginUser } from "../../services/authService.js";
 
 export default function Login() {
+  const { loginUser } = useContext(AuthContext);
+
   const navigate = useNavigate();
   const [user, setUser] = useState({
     email: "",
@@ -21,20 +24,20 @@ export default function Login() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     console.log(user);
+    setError("")
 
     try {
       const data = await loginUser(user);
       console.log("Login success", data);
 
-       // store token
-      localStorage.setItem("token", data.token);
-      // optional: store user
-      localStorage.setItem("user", JSON.stringify(data.user));
+      // store token
+      // localStorage.setItem("token", data.token);
+      // // optional: store user
+      // localStorage.setItem("user", JSON.stringify(data.user));
 
       navigate("/dashboard"); // change
-
     } catch (error) {
-      setError(error.message || "Login Failed");
+      setError(error.message || "Invalid email or password");
     } finally {
       setLoading(false);
     }
@@ -49,7 +52,6 @@ export default function Login() {
     <>
       <h1>Login Page</h1>
       <form onSubmit={handleSubmit}>
-      
         <div>
           <label htmlFor="email">Email</label>
           <input
@@ -74,6 +76,7 @@ export default function Login() {
           />
         </div>
         <br />
+        {error && <p style={{color:"red"}} >{error}</p>}
         <button type="submit">Submit</button>
       </form>
     </>
