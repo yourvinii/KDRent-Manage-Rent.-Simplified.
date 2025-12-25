@@ -4,7 +4,12 @@ const app = express();
 
 // /* ---------- Global Middlewares ---------- */
 
-app.use(cors());
+
+app.use(cors({
+  origin: "http://localhost:5173", //  frontend URL
+  credentials: true,               // allow cookies
+}));
+
 app.use(express.json()); // to read JSON body
 app.use(express.urlencoded({ extended: true }));
 
