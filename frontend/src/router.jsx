@@ -10,6 +10,8 @@ import DashboardLayout from "./layout/DashboardLayout.jsx";
 import AddProperty from "./pages/Dashboard/AddProperty.jsx";
 import MyProperties from "./pages/Dashboard/MyProperties.jsx";
 
+import PrivateRoute from "./routes/PrivateRoutes.jsx";
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -32,7 +34,11 @@ const router = createBrowserRouter([
 
   {
     path: "/dashboard",
-    element: <DashboardLayout />,
+    element: (
+      <PrivateRoute>
+        <DashboardLayout />
+      </PrivateRoute>
+    ),
     children: [
       { index: true, element: <Dashboard /> },
       { path: "add-property", element: <AddProperty /> },
