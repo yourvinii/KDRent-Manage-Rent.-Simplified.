@@ -7,8 +7,10 @@ import Register from "./pages/Register/Register.jsx";
 import Dashboard from "./pages/Dashboard/Dashboard.jsx";
 
 import DashboardLayout from "./layout/DashboardLayout.jsx";
-import AddProperty from "./pages/Dashboard/AddProperty.jsx";
-import MyProperties from "./pages/Dashboard/MyProperties.jsx";
+import AddProperty from "./pages/Property/AddProperty.jsx";
+import MyProperties from "./pages/Property/MyProperties.jsx";
+// import AddProperty from "./pages/Property/AddProperty.jsx";
+// import MyProperties from "./pages/Property/MyProperties.jsx";
 
 import PrivateRoute from "./routes/PrivateRoutes.jsx";
 
