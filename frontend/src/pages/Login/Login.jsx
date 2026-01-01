@@ -7,6 +7,7 @@ export default function Login() {
   const { loginUser } = useContext(AuthContext);
 
   const navigate = useNavigate();
+  
   const [user, setUser] = useState({
     email: "",
     password: "",
@@ -23,7 +24,6 @@ export default function Login() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log(user);
     setError("")
 
     try {

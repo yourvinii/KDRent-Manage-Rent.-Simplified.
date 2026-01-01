@@ -60,6 +60,12 @@ const login = async (req, res) => {
       { expiresIn: "7d" }
     );
 
+    res.cookie("token", token, {
+      httpOnly: true,
+      sameSite: "lax",
+      secure: false,
+    });
+
     return res.status(200).json({
       success: true,
       message: "Login Successful",
@@ -75,7 +81,16 @@ const login = async (req, res) => {
   }
 };
 
+const logout = (req, res) => {
+  res.clearCookie("token");
+  res.json({
+    success: true,
+    message: "Logged out",
+  });
+};
+
 export default {
   signup,
   login,
+  logout,
 };
