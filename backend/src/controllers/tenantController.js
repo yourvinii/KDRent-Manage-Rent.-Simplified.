@@ -10,7 +10,7 @@ const createTenant = async (req, res) => {
     if (!propertyId || !name || !phone || !moveInDate) {
       return res
         .status(400)
-        .json({ success: false, message: "Required Filed Missing" });
+        .json({ success: false, message: "Required Field Missing" });
     }
 
     //check if property exists
