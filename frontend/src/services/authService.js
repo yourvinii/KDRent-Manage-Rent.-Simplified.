@@ -1,3 +1,4 @@
+// All authentication realted APIs calls like login and register are centralized in this service file
 import axios from "axios";
 
 const API = axios.create({
