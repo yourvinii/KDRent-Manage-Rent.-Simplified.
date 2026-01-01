@@ -29,12 +29,7 @@ export default function Login() {
     try {
       const data = await loginUser(user);
       console.log("Login success", data);
-
-      // store token
-      // localStorage.setItem("token", data.token);
-      // // optional: store user
-      // localStorage.setItem("user", JSON.stringify(data.user));
-
+      
       navigate("/dashboard"); // change
     } catch (error) {
       setError(error.message || "Invalid email or password");
