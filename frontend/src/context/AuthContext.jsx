@@ -1,27 +1,24 @@
 import { createContext, useState } from "react";
 import { loginUser as loginService } from "../services/authService";
+import { registerUser as registerService } from "../services/authService"; //this
 import Cookies from "js-cookie";
 
 const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
-  // const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(null);
 
-  //Login
-  // const login = async (credentials) => {
-  //   await authService.login(credentials);
-  //   //if API succeeds, cookie is already set
-  //   setIsAuthenticated(true);
-  // };
+  
 
   const loginUser = async (data) => {
     try {
       const response = await loginService(data);
 
-      //assuming backend sends: {user, token}
-      Cookies.set("token", response.token);
+      //store token in cookie
+      Cookies.set("Token", response.token);
+
+
       setToken(response.token);
       setUser(response.user);
 
@@ -31,16 +28,20 @@ const AuthProvider = ({ children }) => {
     }
   };
 
-  // //logout
-  // const logout = async () => {
-  //   await authService.logout();
-  //   setIsAuthenticated(false);
-  // };
-
   const logoutUser = () => {
     Cookies.remove("token");
     setToken(null);
     setUser(null);
+  };
+
+  const registerUser = async (data) => {
+    // this
+    try {
+      const response = await registerService(data);
+      return response;
+    } catch (error) {
+      throw error;
+    }
   };
 
   return (
@@ -50,10 +51,11 @@ const AuthProvider = ({ children }) => {
         token,
         loginUser,
         logoutUser,
+        registerUser, //added this
       }}>
       {children}
     </AuthContext.Provider>
   );
-}
+};
 
 export { AuthContext, AuthProvider };
