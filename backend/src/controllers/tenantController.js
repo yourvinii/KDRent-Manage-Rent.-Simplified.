@@ -45,7 +45,7 @@ const createTenant = async (req, res) => {
       tenant,
     });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    return res.status(500).json({ success: false, message: error.message });
   }
 };
 
@@ -61,7 +61,7 @@ const getTenantsByPropertyId = async (req, res) => {
     }
 
     //Check property belongs to logged in user
-    if (property.ownerId.toString() !== req.user._id) {
+    if (property.ownerId.toString() !== req.user._id.toString()) {
       res.status(403).json({ success: false, message: "Access Denied" });
     }
 
@@ -100,7 +100,7 @@ const getSingleTenant = async (req, res) => {
     }
 
     //check owner
-    if (property.ownerId.toString() !== req.user._id) {
+    if (property.ownerId.toString() !== req.user._id.toString()) {
       return res.status(403).json({ success: false, message: "Access Denied" });
     }
 

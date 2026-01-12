@@ -60,6 +60,8 @@ const login = async (req, res) => {
       { expiresIn: "7d" }
     );
 
+    // secure: process.env.NODE_ENV === "production"
+
     res.cookie("token", token, {
       httpOnly: true,
       sameSite: "lax",

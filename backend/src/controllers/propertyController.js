@@ -28,7 +28,7 @@ const createProperty = async (req, res) => {
 
 const getAllProperties = async (req, res) => {
   try {
-    const properties = await Property.find().populate("ownerId", "name email");
+    const properties = await Property.find( {ownerId: req.user._id }).populate("ownerId", "name email");
 
     return res.status(200).json({
       success: true,
