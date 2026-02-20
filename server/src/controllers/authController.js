@@ -6,6 +6,13 @@ const signup = async (req, res) => {
   try {
     const { name, email, password } = req.body;
 
+    if (!name || !email || !password) {
+      return res.status(400).json({
+        success: false,
+        message: "All fields are required",
+      });
+    }
+
     //Check if user already exists
     const existingUser = await User.findOne({ email });
     if (existingUser) {
@@ -19,13 +26,36 @@ const signup = async (req, res) => {
 
     //create user
 
-    await User.create({
+    const user = await User.create({
       name,
       email,
       password: hashedPass,
     });
 
-    return res.json({ success: true, message: "SignUp successful" });
+    // JWT
+
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET_KEY, {
+      expiresIn: "7d",
+    });
+
+    //Cookie
+
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: false, // production true
+      sameSite: "lax",
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+    });
+
+    return res.json({
+      success: true,
+      message: "Registration successful",
+      user: {
+        id: user._id,
+        name: user.name,
+        emial: user.email,
+      },
+    });
   } catch (error) {
     return res.status(500).json({ success: false, message: error.message });
   }
@@ -35,15 +65,23 @@ const login = async (req, res) => {
   try {
     const { email, password } = req.body;
 
+    // 1️⃣ Check fields
+    if (!email || !password) {
+      return res.status(400).json({
+        success: false,
+        message: "Email and password are required",
+      });
+    }
+
     //Check User
     const user = await User.findOne({ email });
     if (!user) {
       return res
         .status(400)
-        .json({ success: false, message: "User not found!" });
+        .json({ success: false, message: "Invalid email or password" });
     }
 
-    //Compare Password
+    //Check Password
     const ok = await bcrypt.compare(password, user.password);
 
     if (!ok) {
@@ -54,11 +92,9 @@ const login = async (req, res) => {
 
     //Generate Token
 
-    const token = jwt.sign(
-      { _id: user._id, email: user.email },
-      process.env.JWT_SECRET_KEY,
-      { expiresIn: "7d" }
-    );
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET_KEY, {
+      expiresIn: "7d",
+    });
 
     // secure: process.env.NODE_ENV === "production"
 
@@ -73,7 +109,7 @@ const login = async (req, res) => {
       message: "Login Successful",
       token,
       user: {
-        _id: user._id,
+        id: user._id,
         name: user.name,
         email: user.email,
       },
@@ -84,10 +120,22 @@ const login = async (req, res) => {
 };
 
 const logout = (req, res) => {
-  res.clearCookie("token");
-  res.json({
+  res.cookie("token", "", {
+    httpOnly: true,
+    expires: new Date(0),
+    sameSite: "lax",
+  });
+
+  res.status(200).json({
     success: true,
-    message: "Logged out",
+    message: "Logged out successfully",
+  });
+};
+
+const getMe = (req, res) => {
+  res.status(200).json({
+    success: true,
+    user: req.user,
   });
 };
 
@@ -95,4 +143,5 @@ export default {
   signup,
   login,
   logout,
+  getMe,
 };
