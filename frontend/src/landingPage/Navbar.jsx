@@ -12,7 +12,7 @@ export default function Navbar() {
         </div>
         <div className="d-flex gap-2">
           <button className="btn btn-outline-light">Sign In</button>
-          <button className="btn btn-danger">Sign Up</button>
+          <button style={{backgroundColor:"#ff6b6b", color:"#fff"}} className="btn btn-danger">Sign Up</button>
         </div>
       </div>
     </nav>
