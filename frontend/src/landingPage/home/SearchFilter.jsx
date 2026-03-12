@@ -1,14 +1,14 @@
 export default function SearchFilter() {
   return (
-    <div className="container">
+    <div className="container p-5 mb-5">
       <div className="row">
-        <div className="col">
+        <div className="col mb-5">
           <h1>
             Quick find the home you want using our effective serach filter
           </h1>
         </div>
       </div>
-      <div className="row">
+      <div className="row " style={{display:"flex", alignItems:"center"}}>
         <div className="col-4">
           <div>
             <img src="media\images\landing-search1.png" alt="" />
@@ -18,6 +18,10 @@ export default function SearchFilter() {
             <p>
               Discover the best rental options with user reviews and ratings.
             </p>
+          </div>
+          <div className="search-filter-card-btn" >
+            <button className="btn btn-outline-danger">Explore</button>
+
           </div>
         </div>
         <div className="col-4">
@@ -31,6 +35,10 @@ export default function SearchFilter() {
               of rental options.
             </p>
           </div>
+          <div className="search-filter-card-btn">
+            <button className="btn btn-outline-danger">Search</button>
+
+          </div>
         </div>
 
         <div className="col-4">
@@ -43,6 +51,10 @@ export default function SearchFilter() {
               Find trustworthy and verified rental listings to ensure a
               hassle-free expreience.
             </p>
+          </div>
+          <div className="search-filter-card-btn">
+            <button className="btn btn-outline-danger">Discover</button>
+
           </div>
         </div>
       </div>
