@@ -13,7 +13,7 @@ export default function Find() {
                     </div>
                     <div className="col mt-5  ">
                         <p className="mt-5 text-light">Discover a wide range of rental properties in your desired location.</p>
-                        <button className="btn btn-light  ">Search</button>
+                        <button className="btn btn-light me-4 ">Search</button>
                         <button className="btn btn-danger">Sign Up</button>
                     </div>
                 </div>
