@@ -5,7 +5,7 @@ export default function Footer() {
     <div className="container p-5 mt-5 mb-5  ">
       <div className="row mb-5">
         <div className="col-3">
-          <h1>KDRent</h1>
+          <h1>KD<span className="text-danger">R</span>ent</h1>
         </div>
         <div className="col-6 footer-links">
           <a href="">About Us</a>
