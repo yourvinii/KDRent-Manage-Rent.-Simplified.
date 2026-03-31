@@ -53,7 +53,7 @@ const signup = async (req, res) => {
       user: {
         id: user._id,
         name: user.name,
-        emial: user.email,
+        email: user.email,
       },
     });
   } catch (error) {
@@ -101,7 +101,8 @@ const login = async (req, res) => {
     res.cookie("token", token, {
       httpOnly: true,
       sameSite: "lax",
-      secure: false,
+      secure: process.env.NODE_ENV === "production",
+      maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
     return res.status(200).json({

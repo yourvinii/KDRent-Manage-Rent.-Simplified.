@@ -78,7 +78,7 @@ const getMyProperties = async (req, res) => {
 
     res.status(200).json({
       success: true,
-      coutn: properties.length,
+      count: properties.length,
       properties,
     });
   } catch (error) {
@@ -98,7 +98,7 @@ const updateProperty = async (req, res) => {
     }
 
     //ownership check
-    if (property.owner.toString() !== req.user.id) {
+    if (property.ownerId.toString() !== req.user.id) {
       return res.status(403).json({
         success: false,
         message: "You are not allowed to update this property",
@@ -137,7 +137,7 @@ const deleteProperty = async (req, res) => {
     }
 
     // 🔐 Ownership check
-    if (property.owner.toString() !== req.user.id) {
+    if (property.ownerId.toString() !== req.user.id) {
       return res.status(403).json({
         success: false,
         message: "You are not allowed to delete this property",

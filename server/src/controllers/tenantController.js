@@ -21,8 +21,11 @@ const createTenant = async (req, res) => {
         .json({ success: false, message: "Property not found" });
     }
 
+    console.log("Property owner", property.ownerId.toString());
+    console.log("Logged User", req.user._id.toString());
+
     //verify property belongs to the logged in user
-    if (property.ownerId.toString() !== req.user._id) {
+    if (property.ownerId.toString() !== req.user._id.toString()) {
       return res.status(403).json({
         success: false,
         message: "You are not allowed to add tenant to this property",
@@ -57,31 +60,33 @@ const getTenantsByPropertyId = async (req, res) => {
     //check property Exists
     const property = await Property.findById(propertyId);
     if (!property) {
-      res.status(404).json({ success: false, message: "Property not found" });
+      return res
+        .status(404)
+        .json({ success: false, message: "Property not found" });
     }
 
     //Check property belongs to logged in user
     if (property.ownerId.toString() !== req.user._id.toString()) {
-      res.status(403).json({ success: false, message: "Access Denied" });
+      return res.status(403).json({ success: false, message: "Access Denied" });
     }
 
     //get tenant of this property
     const tenants = await Tenant.find({ propertyId }).select(
-      "name phone moveInDate"
+      "name phone moveInDate",
     );
 
-    res.json({
+    return res.json({
       success: true,
       tenants,
     });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    return res.status(500).json({ success: false, message: error.message });
   }
 };
 
 const getSingleTenant = async (req, res) => {
   try {
-    const {tenantId} = req.params;
+    const { tenantId } = req.params;
 
     //check tenant exist
     const tenant = await Tenant.findById(tenantId);
