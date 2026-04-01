@@ -6,30 +6,21 @@ const API = axios.create({
 });
 
 export const registerUser = async (userData) => {
-  try {
-    const res = await axios.post(
-      "http://localhost:8080/api/auth/register",
-      userData,
-      { withCredentials: true }
-    );
-
-    return res.data;
-  } catch (error) {
-    return error.response?.data;
-  }
+  const { data } = await API.post("/auth/register", userData);
+  return data;
 };
 
 export const loginUser = async (userData) => {
-  const response = await API.post("/auth/login", userData);
-  return response.data;
+  const {data} = await API.post("/auth/login", userData);
+  return data;
 };
 
 export const getCurrentUser = async () => {
-  const response = await API.get("/auth/me");
-  return response.data;
+  const {data} = await API.get("/auth/me");
+  return data;
 };
 
 export const logoutUser = async () => {
-  const response = await API.post("/auth/logout");
-  return response.data;
+  const {data} = await API.post("/auth/logout");
+  return data;
 };
