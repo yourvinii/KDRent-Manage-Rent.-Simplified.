@@ -38,32 +38,29 @@ const router = createBrowserRouter([
     path: "/dashboard",
     element: (
       <ProtectedRoute>
-        <DashboardLayout />
+        <Dashboard />
       </ProtectedRoute>
     ),
-    children: [
+  },
+     
       {
-        index: true,
-        element: <Dashboard />,
-      },
-      {
-        path: "add-property",
+        path: "/add-property",
         element: <AddProperty />,
       },
       {
-        path: "my-properties",
+        path: "/my-properties",
         element: <MyProperties />,
       },
       {
-        path: "my-properties/:id",
+        path: "/my-properties/:id",
         element: <PropertyDetails />,
       },
       {
-        path: "my-properties/:id/edit",
+        path: "/my-properties/:id/edit",
         element: <EditProperty />,
       },
-    ],
-  },
+
+
 ]);
 
 export default router;

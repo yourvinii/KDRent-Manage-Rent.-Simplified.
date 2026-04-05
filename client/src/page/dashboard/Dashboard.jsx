@@ -11,15 +11,25 @@ export default function Dashboard() {
   };
   return (
     <div className="container">
-      <h1>dashboard</h1>
       <div className="row">
-        <div className="col-4">
+        <div className="col-4 border" style={{ backgroundColor: "red" }}>
           <h1>side panel</h1>
-          <NavLink to={"/dashboard/my-properties"}>My Properties</NavLink>
-          <NavLink to={"/dashboard/add-property"}>Add Property</NavLink>
-          <button onClick={handleLogout}>logout</button>
+          <ul>
+            <li>
+              <NavLink to={"/my-properties"}>My Properties</NavLink>
+            </li>
+            <li>
+              <NavLink to={"/add-property"}>Add Property</NavLink>
+            </li>
+            <li>
+              <button onClick={handleLogout}>logout</button>
+            </li>
+          </ul>
         </div>
-        <div className="col-8">main container</div>
+        <div className="col-8" style={{ backgroundColor: "green" }}>
+          main container
+          
+        </div>
       </div>
     </div>
   );
