@@ -118,44 +118,44 @@ export const login = async (req, res) => {
 
 // to get profile
 
-// export const getMe = async (req, res) => {
-//   try {
-//     const user = await User.findById(req.user.id).select("-password");
-//     if (!user) {
-//       return res.status(404).json({ message: "User not found" });
-//     }
-
-//     return res.json({
-//       success: true,
-//       user,
-//     });
-//   } catch (error) {
-//     return res.status(500).json({
-//       message: error.message,
-//     });
-//   }
-// };
-
 export const getMe = async (req, res) => {
   try {
-    if (!req.user) {
-      return res.status(403).json({
-        success: false,
-        message: "User not found",
-      });
+    const user = await User.findById(req.user.id).select("-password");
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
     }
 
-    return res.status(200).json({
+    return res.json({
       success: true,
-      user: req.user,
+      user,
     });
   } catch (error) {
-    return res.status(404).json({
-      success: false,
+    return res.status(500).json({
       message: error.message,
     });
   }
 };
+
+// export const getMe = async (req, res) => {
+//   try {
+//     if (!req.user) {
+//       return res.status(403).json({
+//         success: false,
+//         message: "User not found",
+//       });
+//     }
+
+//     return res.status(200).json({
+//       success: true,
+//       user: req.user,
+//     });
+//   } catch (error) {
+//     return res.status(404).json({
+//       success: false,
+//       message: error.message,
+//     });
+//   }
+// };
 
 // verify the email
 export const verifyEmail = async (req, res) => {
@@ -240,9 +240,9 @@ export const forgotPassword = async (req, res) => {
         .status(200)
         .json({ message: "Password reset email sent", success: true });
     } catch (error) {
-      user.resetPasswordToken = undefined;
-      user.resetPasswordExpire = undefined;
-      await user.save();
+      // user.resetPasswordToken = undefined;
+      // user.resetPasswordExpire = undefined;
+      // await user.save();
       return res
         .status(500)
         .json({ message: "Could not send email", success: false });
