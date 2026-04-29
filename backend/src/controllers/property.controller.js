@@ -180,7 +180,7 @@ export const deleteProperty = async (req, res) => {
 
     // delete image from cloudinary
     for (let image of property.images) {
-      const publicId = imageUrl.split("/").pop().split(".")[0];
+      const publicId = image.split("/").pop().split(".")[0];
       await cloudinary.uploader.destroy("properties/" + publicId);
     }
 
@@ -329,7 +329,7 @@ export const getPropertyDetails = async (req, res) => {
     }
 
     // unique view tracking by id
-    let visiterId = req.ip;
+    let visitorId = req.ip;
     const authHeader = req.headers.authorization;
     if (authHeader && authHeader.startsWith("Bearer ")) {
       try {
@@ -343,7 +343,7 @@ export const getPropertyDetails = async (req, res) => {
 
     const isSellerChecking = visitorId === property.seller._id.toString();
     // only increment the view if the person is not the seller of the particular property , but if he edits, then increase the view
-    if (!isSellerChecking && !property.viewedBy.includes(visiterId)) {
+    if (!isSellerChecking && !property.viewedBy.includes(visitorId)) {
       property.views += 1;
       property.viewedBy.push(visitorId);
       await property.save();
@@ -367,6 +367,73 @@ export const getPropertyDetails = async (req, res) => {
     res.status(500).json({
       success: false,
       message: error.message,
+    });
+  }
+};
+
+// seller dashboard
+export const getSellerDashboard = async (req, res) => {
+  try {
+    const sellerId = req.user._id;
+    const totalProperties = await Property.countDocuments({ seller: sellerId });
+    const activeListings = await Property.countDocuments({
+      seller: sellerId,
+      status: "sale",
+    });
+
+    const soldProperties = await Property.countDocuments({
+      seller: sellerId,
+      status: "sold",
+    });
+    const totalInquiries = await Inquiry.countDocuments({ seller: sellerId });
+
+    //calculate total views for all properties
+    const viewsData = await Property.aggregate([
+      { $match: { seller: sellerId } },
+      { $group: { _id: null, totalViews: { $sum: "$views" } } },
+    ]);
+    const totalViews = viewsData.length > 0 ? viewsData[0].totalViews : 0;
+
+    res.json({
+      success: true,
+      stats: {
+        totalProperties,
+        activeListings,
+        soldProperties,
+        totalInquiries,
+        totalViews,
+      },
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Internal server error while fetching properties",
+      error: error.message,
+    });
+  }
+};
+
+// get property counts by type
+export const getPropertyCount = async (req, res) => {
+  try {
+    const counts = await Property.aggregate([
+      { $match: { status: "sale" } },
+      { $group: { _id: "$propertyType", count: { $sum: 1 } } },
+    ]);
+
+    const formattedCounts = counts.reduce((acc, curr) => {
+      acc[curr._id] = curr.count;
+      return acc;
+    }, {});
+    return res.json({
+      success: true,
+      counts: formattedCounts,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Internal server error while fetching properties",
+      error: error.message,
     });
   }
 };
