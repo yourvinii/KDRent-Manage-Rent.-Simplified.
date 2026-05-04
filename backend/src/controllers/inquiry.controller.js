@@ -59,7 +59,7 @@ export const getSellerInquiry = async (req, res) => {
 
 export const markAsRead = async (req, res) => {
   try {
-    const inquiry = await inquires.findById(req.params.id);
+    const inquiry = await Inquiry.findById(req.params.id);
     if (!inquiry) {
       return res.json({
         success: false,
