@@ -24,7 +24,7 @@ const inquirySchema = new mongoose.Schema(
       required: true,
     },
     isRead: {
-      type: Boolen,
+      type: Boolean,
       default: false,
     },
   },

@@ -34,7 +34,7 @@ propertyRouter.put(
   updateProperty,
 );
 
-propertyRouter.route("/:id", protect, authorize("seller"), deleteProperty);
+propertyRouter.delete("/:id", protect, authorize("seller"), deleteProperty);
 propertyRouter.patch(
   "/:id/status",
   protect,

@@ -5,7 +5,7 @@ import cors from "cors";
 import authRouter from "./routes/auth.routes.js";
 import userRouter from "./routes/user.routes.js";
 import propertyRouter from "./routes/property.routes.js";
-
+import inquiryRouter from "./routes/inquiry.routes.js";
 const app = express();
 
 // middleware
@@ -26,4 +26,5 @@ app.get("/", (req, res) => {
 app.use("/api/auth", authRouter);
 app.use("/api/user", userRouter);
 app.use("/api/property", propertyRouter);
+app.use("/api/inquiry", inquiryRouter);
 export default app;
