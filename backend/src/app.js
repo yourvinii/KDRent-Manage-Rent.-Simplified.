@@ -8,6 +8,7 @@ import propertyRouter from "./routes/property.routes.js";
 import inquiryRouter from "./routes/inquiry.routes.js";
 import wishlistRouter from "./routes/wishlist.routes.js";
 import contactRouter from "./routes/contact.routes.js";
+import adminRouter from "./routes/admin.routes.js";
 
 const app = express();
 
@@ -32,4 +33,5 @@ app.use("/api/property", propertyRouter);
 app.use("/api/inquiry", inquiryRouter);
 app.use("/api/wishlist", wishlistRouter);
 app.use("/api/contact", contactRouter);
+app.use("/api/admin", adminRouter);
 export default app;
