@@ -5,7 +5,7 @@ const inquirySchema = new mongoose.Schema(
     property: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Property",
-      requrired: true,
+      required: true,
     },
 
     buyer: {

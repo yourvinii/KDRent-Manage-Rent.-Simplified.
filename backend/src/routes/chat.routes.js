@@ -35,16 +35,16 @@ chatRouter.route("/start").post(async (req, res) => {
         property: propertyId, // initial property context
         buyer: buyerId,
         seller: finalSellerId,
-        message: [],
+        messages: [],
       });
     }
 
-    chat = await Chat.findById(caht._id)
+    chat = await Chat.findById(chat._id)
       .populate("buyer", "name email profilePic")
       .populate("seller", "name email profilePic")
       .populate("property", "title price images");
 
-    req.json(chat);
+    res.json(chat);
   } catch (error) {
     return res.status(500).json({
       message: "Error creating chat or getting previous one",
@@ -77,11 +77,11 @@ chatRouter.route("/send").post(async (req, res) => {
       image,
       createdAt: new Date(),
     };
-    chat.message.push(newMessage);
+    chat.messages.push(newMessage);
 
     await chat.save();
 
-    const savedMessage = chat.message[chat.messages.lenght - 1];
+    const savedMessage = chat.messages[chat.messages.length - 1];
     res.json({
       chat,
       newMessage: savedMessage,
@@ -94,8 +94,8 @@ chatRouter.route("/send").post(async (req, res) => {
   }
 });
 
-// to get chats for user(all)
 
+// to get chats for user(all)
 chatRouter.route("/user").get(async (req, res) => {
   try {
     const userId = req.user._id;
@@ -118,7 +118,7 @@ chatRouter.route("/user").get(async (req, res) => {
   }
 });
 
-// to get chat message
+// to get specific conversation(chat)
 chatRouter.route("/:chatId").get(async (req, res) => {
   {
     try {
@@ -175,7 +175,6 @@ chatRouter.route("/:chatId").delete(async (req, res) => {
 });
 
 // to delete a specific message
-
 chatRouter.route("/:chatId/message/:messageId").delete(async (req, res) => {
   try {
     const userId = req.user._id;
@@ -195,7 +194,7 @@ chatRouter.route("/:chatId/message/:messageId").delete(async (req, res) => {
 
     chat.messages.pull(req.params.messageId);
     await chat.save();
-    return res.json({ message: "Message delted successfully!", chat });
+    return res.json({ message: "Message deleted successfully!", chat });
   } catch (error) {
     return res.status(500).json({
       error: error.message,

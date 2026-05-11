@@ -1,7 +1,7 @@
 import express from "express";
 import cors from "cors";
 import http from "http";
-import { Server } from "socket.ioF";
+import { Server } from "socket.io";
 
 // routes
 import authRouter from "./routes/auth.routes.js";
