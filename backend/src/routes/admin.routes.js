@@ -23,9 +23,9 @@ adminRouter.route("/users/:id").delete(deleteUser);
 
 adminRouter.route("/properties").get(getAllProperties);
 
-adminRouter.route("/propertes/:id").delete(deleteProperty);
+adminRouter.route("/properties/:id").delete(deleteProperty);
 
-adminRouter.route("/inquires").get(getAllInquiries);
+adminRouter.route("/inquiries").get(getAllInquiries);
 
 adminRouter.route("/stats").get(getDashboardStats);
 

@@ -155,7 +155,7 @@ chatRouter.route("/:chatId").delete(async (req, res) => {
     const userId = req.user._id;
     const chat = await Chat.findById(req.params.chatId);
 
-    if (!chat) return res.status(404)._construct({ message: "Chat not found" });
+    if (!chat) return res.status(404).json({ message: "Chat not found" });
 
     // now we ensure the user is part of the chat
     if (
@@ -180,7 +180,7 @@ chatRouter.route("/:chatId/message/:messageId").delete(async (req, res) => {
     const userId = req.user._id;
     const chat = await Chat.findById(req.params.chatId);
 
-    if (!chat) return res.status(404)._construct({ message: "Chat not found" });
+    if (!chat) return res.status(404).json({ message: "Chat not found" });
 
     const message = chat.messages.id(req.params.messageId);
     if (!message) return res.status(404).json({ message: "Message not found" });

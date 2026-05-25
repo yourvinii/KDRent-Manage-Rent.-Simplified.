@@ -2,6 +2,9 @@ import express from "express";
 import cors from "cors";
 import http from "http";
 import { Server } from "socket.io";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 // routes
 import authRouter from "./routes/auth.routes.js";
@@ -14,7 +17,10 @@ import adminRouter from "./routes/admin.routes.js";
 import chatRouter from "./routes/chat.routes.js";
 
 const app = express();
-const allowedOrigins = ["http://localhost:5173"].filter(Boolean);
+const allowedOrigins = (process.env.CLIENT_URL || "http://localhost:5173")
+  .split(",")
+  .map((origin) => origin.trim().replace(/\/+$/, ""))
+  .filter(Boolean);
 
 // middleware
 app.use(express.json());
@@ -58,12 +64,17 @@ const io = new Server(server, {
 
 io.on("connection", (socket) => {
   socket.on("joinChat", (chatId) => {
-    socket.json(chatId);
+    if (chatId) {
+      socket.join(chatId);
+    }
   });
+
   socket.on("sendMessage", (data) => {
     io.to(data.chatId).emit("receiveMessage", data);
   });
+
   socket.on("disconnect", () => {});
 });
 
+export { app, server, io };
 export default app;
