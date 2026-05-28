@@ -1,12 +1,15 @@
 import React, { useState } from "react";
 import Input from "../common/Input";
 import Button from "../common/Button";
+import { loginUser } from "../../services/authService";
 
 const LoginForm = () => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
+
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     setFormData({
@@ -15,8 +18,25 @@ const LoginForm = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
+    try {
+      setLoading(true);
+      const data = await loginUser(formData);
+
+      console.log("LOGIN SUCCESS:", data);
+
+      //TOKEN SAVE
+      localStorage.setItem("token", data.token);
+      alert("Login Successful");
+    } catch (error) {
+      console.log(error);
+      alert(error.response?.data?.message || "Login Failed");
+    } finally {
+      setLoading(false);
+    }
+
     console.log(formData);
   };
 
@@ -52,7 +72,7 @@ const LoginForm = () => {
         onChange={handleChange}
       />
 
-      <Button type="submit" text="Login" />
+      <Button type="submit" text={loading ? "Loading..." : "Login"} />
     </form>
   );
 };

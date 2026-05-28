@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Button from "../common/Button";
 import Input from "../common/Input";
+import { registerUser } from "../../services/authService";
 
 const RegisterForm = () => {
   const [formData, setFormData] = useState({
@@ -9,6 +10,8 @@ const RegisterForm = () => {
     password: "",
   });
 
+  const [loading, setLoading] = useState(false);
+
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -16,9 +19,21 @@ const RegisterForm = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault;
-    console.log(formData);
+
+    try {
+      setLoading(true);
+      const data = await registerUser(formData);
+      console.log("REGISTER SUCCESS:", data);
+
+      alert("Registraion Successful");
+    } catch (error) {
+      console.log(error);
+      alert(error.response?.data?.message || "Registraion Failed");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -48,7 +63,7 @@ const RegisterForm = () => {
         onChange={handleChange}
       />
 
-      <Button type="submit" text="Register" />
+      <Button type="submit" text={loading ? "Loading..." : "Register"} />
     </form>
   );
 };
