@@ -13,7 +13,8 @@ import Login from "../pages/auth/Login";
 import Register from "../pages/auth/Register";
 
 import NotFound from "../pages/errors/NotFound";
- 
+import ProtectedRoutes from "./ProtectedRoutes";
+
 const AppRoutes = () => {
   return (
     <Routes>
@@ -29,7 +30,14 @@ const AppRoutes = () => {
       </Route>
 
       {/* DASHBOARD ROUTES  */}
-      <Route path="/dashboard" element={<DashboardLayout />}>
+      <Route
+        path="/dashboard"
+        element={
+          <ProtectedRoutes>
+            <DashboardLayout />
+          </ProtectedRoutes>
+        }
+      >
         <Route index element={<h1 className="text-4xl">Dashboard Home</h1>} />
       </Route>
       {/* 404 */}

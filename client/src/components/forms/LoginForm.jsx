@@ -2,12 +2,15 @@ import React, { useState } from "react";
 import Input from "../common/Input";
 import Button from "../common/Button";
 import { loginUser } from "../../services/authService";
+import { useAuth } from "../../context/AuthContext";
 
 const LoginForm = () => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
+
+  const { login } = useAuth();
 
   const [loading, setLoading] = useState(false);
 
@@ -29,6 +32,7 @@ const LoginForm = () => {
 
       //TOKEN SAVE
       localStorage.setItem("token", data.token);
+      login(data);
       alert("Login Successful");
     } catch (error) {
       console.log(error);
