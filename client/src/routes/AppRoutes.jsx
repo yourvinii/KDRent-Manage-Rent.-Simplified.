@@ -14,6 +14,7 @@ import Register from "../pages/auth/Register";
 
 import NotFound from "../pages/errors/NotFound";
 import ProtectedRoutes from "./ProtectedRoutes";
+import Listings from "../pages/listings/Listings";
 
 const AppRoutes = () => {
   return (
@@ -27,6 +28,7 @@ const AppRoutes = () => {
         <Route path="login" element={<Login />} />
 
         <Route path="register" element={<Register />} />
+        <Route path="listings" element={<Listings />} />
       </Route>
 
       {/* DASHBOARD ROUTES  */}
