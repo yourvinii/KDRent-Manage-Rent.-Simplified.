@@ -15,6 +15,7 @@ import Register from "../pages/auth/Register";
 import NotFound from "../pages/errors/NotFound";
 import ProtectedRoutes from "./ProtectedRoutes";
 import Listings from "../pages/listings/Listings";
+import PropertyDetails from "../pages/property/PropertyDetails";
 
 const AppRoutes = () => {
   return (
@@ -22,13 +23,11 @@ const AppRoutes = () => {
       {/* PUBLIC ROUTES  */}
       <Route path="/" element={<MainLayout />}>
         <Route index element={<Home />} />
-
         <Route path="explore" element={<Explore />} />
-
         <Route path="login" element={<Login />} />
-
         <Route path="register" element={<Register />} />
         <Route path="listings" element={<Listings />} />
+        <Route path="/property/:id" element={<PropertyDetails />} />{" "}
       </Route>
 
       {/* DASHBOARD ROUTES  */}
