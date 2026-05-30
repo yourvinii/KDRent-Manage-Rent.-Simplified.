@@ -17,6 +17,11 @@ import ProtectedRoutes from "./ProtectedRoutes";
 import Listings from "../pages/listings/Listings";
 import PropertyDetails from "../pages/property/PropertyDetails";
 
+import SellerLayout from "../layouts/SellerLayout";
+import SellerDashboard from "../pages/seller/SellerDashboard";
+import AddProperty from "../pages/seller/AddProperty";
+import MyProperties from "../pages/seller/MyProperties";
+
 const AppRoutes = () => {
   return (
     <Routes>
@@ -29,6 +34,33 @@ const AppRoutes = () => {
         <Route path="listings" element={<Listings />} />
         <Route path="/property/:id" element={<PropertyDetails />} />{" "}
       </Route>
+
+       {/* Seller Routes */}
+
+      <Route
+        path="/seller"
+        element={
+          <ProtectedRoute>
+            <SellerLayout />
+          </ProtectedRoute>
+        }
+      >
+        <Route
+          index
+          element={<SellerDashboard />}
+        />
+
+        <Route
+          path="add-property"
+          element={<AddProperty />}
+        />
+
+        <Route
+          path="my-properties"
+          element={<MyProperties />}
+        />
+      </Route>
+
 
       {/* DASHBOARD ROUTES  */}
       <Route
