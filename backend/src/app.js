@@ -6,7 +6,7 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-// routes
+// Routes
 import authRouter from "./routes/auth.routes.js";
 import userRouter from "./routes/user.routes.js";
 import propertyRouter from "./routes/property.routes.js";
@@ -17,32 +17,27 @@ import adminRouter from "./routes/admin.routes.js";
 import chatRouter from "./routes/chat.routes.js";
 
 const app = express();
-const allowedOrigins = (process.env.CLIENT_URL || "http://localhost:5173")
-  .split(",")
-  .map((origin) => origin.trim().replace(/\/+$/, ""))
-  .filter(Boolean);
 
-// middleware
+/* =========================
+        Middlewares
+========================= */
+
 app.use(express.json());
+
 app.use(express.urlencoded({ extended: true }));
-app.use(cors());
 
-// app.use(
-//   cors({
-//     origin: function (origin, callback) {
-//       if (!origin || allowedOrigins.includes(origin)) {
-//         callback(null, true);
-//       } else {
-//         callback(new Error("Not allowed by CORS"));
-//       }
-//     },
-//     credentials: true,
-//   }),
-// );
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+  })
+);
 
-// routes
+/* =========================
+          Routes
+========================= */
+
 app.get("/", (req, res) => {
-  res.send("working ");
+  res.send("Server is running...");
 });
 
 app.use("/api/auth", authRouter);
@@ -54,29 +49,35 @@ app.use("/api/contact", contactRouter);
 app.use("/api/admin", adminRouter);
 app.use("/api/chat", chatRouter);
 
+/* =========================
+        Socket.io
+========================= */
+
 const server = http.createServer(app);
-// socket.id setup
 
 const io = new Server(server, {
   cors: {
-    origin: allowedOrigins,
+    origin: "http://localhost:5173",
     methods: ["GET", "POST"],
   },
 });
 
 io.on("connection", (socket) => {
+  console.log("User Connected :", socket.id);
+
   socket.on("joinChat", (chatId) => {
-    if (chatId) {
-      socket.join(chatId);
-    }
+    socket.join(chatId);
   });
 
   socket.on("sendMessage", (data) => {
     io.to(data.chatId).emit("receiveMessage", data);
   });
 
-  socket.on("disconnect", () => {});
+  socket.on("disconnect", () => {
+    console.log("User Disconnected :", socket.id);
+  });
 });
 
 export { app, server, io };
+
 export default app;

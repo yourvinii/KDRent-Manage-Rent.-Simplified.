@@ -88,6 +88,10 @@ export const login = async (req, res) => {
       });
     }
 
+    const userData = user.toObject();
+
+    delete userData.password;
+
     if (user.isBlocked) {
       return res.status(403).json({
         message: "Your account is blocked by an admin. Please contact support",
@@ -104,10 +108,11 @@ export const login = async (req, res) => {
       },
     );
 
-    return res.json({
+    return res.status(200).json({
+      success: true,
       message: "Login Successful",
       token,
-      user,
+      user: userData,
     });
   } catch (error) {
     return res.status(500).json({
