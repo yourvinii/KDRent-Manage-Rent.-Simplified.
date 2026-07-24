@@ -1,5 +1,6 @@
 import { useState } from "react";
 import AuthLayout from "../../components/auth/AuthLayout";
+import { loginUser } from "../../api/authApi";
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -8,6 +9,8 @@ const Login = () => {
   });
 
   const [showPassword, setShowPassword] = useState(false);
+
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -18,11 +21,21 @@ const Login = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
-  e.preventDefault();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-  console.log(formData);
-};
+    setLoading(true);
+
+    try {
+      const data = await loginUser(formData);
+
+      console.log(data);
+    } catch (error) {
+      console.log(error.response?.data?.message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <AuthLayout>
@@ -88,9 +101,14 @@ const Login = () => {
           {/* Login Button */}
           <button
             type="submit"
-            className="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition"
+            disabled={loading}
+            className={`w-full py-3 rounded-lg font-semibold text-white transition ${
+              loading
+                ? "bg-blue-400 cursor-not-allowed"
+                : "bg-blue-600 hover:bg-blue-700"
+            }`}
           >
-            Login
+            {loading ? "Logging in..." : "Login"}
           </button>
         </form>
 
