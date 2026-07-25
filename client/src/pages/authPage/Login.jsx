@@ -1,8 +1,14 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 import AuthLayout from "../../components/auth/AuthLayout";
 import { loginUser } from "../../api/authApi";
+import { useAuth } from "../../context/AuthContext";
 
 const Login = () => {
+  const navigate = useNavigate();
+  const { login } = useAuth();
+
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -29,7 +35,11 @@ const Login = () => {
     try {
       const data = await loginUser(formData);
 
-      console.log(data);
+      login(data.user, data.token);
+
+      navigate("/");
+
+      // console.log(data);
     } catch (error) {
       console.log(error.response?.data?.message);
     } finally {
