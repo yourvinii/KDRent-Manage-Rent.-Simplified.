@@ -7,15 +7,16 @@ const Navbar = () => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
+      // Future: Call logout API if required
     logout();
     navigate("/");
   };
 
   return (
     <nav className="bg-black text-white py-5 flex justify-between items-center px-5">
-      <div className="text-2xl font-bold">
+      <Link to={"/"} className="text-2xl font-bold">
         KDRent
-      </div>
+      </Link>
 
       <div className="flex gap-10 items-center">
         <Link to="/">Home</Link>
@@ -26,9 +27,7 @@ const Navbar = () => {
 
         {isAuthenticated ? (
           <>
-            <span className="font-medium">
-              {user?.name}
-            </span>
+            <span className="font-medium">{user?.name}</span>
 
             <button
               onClick={handleLogout}
