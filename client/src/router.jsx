@@ -33,6 +33,14 @@ import Inquiries from "./pages/Admin/Inquiries/Inquiries";
 import Properties from "./pages/Admin/Properties/Properties";
 import Users from "./pages/Admin/Users/Users";
 
+//Chat
+import ChatPage from "./pages/Chat/ChatPage/ChatPage";
+
+// Payment
+import Checkout from "./pages/Payment/Checkout/Checkout";
+import Success from "./pages/Payment/Success/Success";
+import Failed from "./pages/Payment/Failed/Failed";
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -188,6 +196,41 @@ const router = createBrowserRouter([
         ),
       },
     ],
+  },
+
+  // Chat
+  {
+    path: "/chat",
+    element: (
+      <ProtectedRoute>
+        <ChatPage />
+      </ProtectedRoute>
+    ),
+  },
+  // Payment
+  {
+    path: "/checkout",
+    element: (
+      <ProtectedRoute>
+        <Checkout />
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: "/payment-success",
+    element: (
+      <ProtectedRoute>
+        <Success />
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: "/payment-failed",
+    element: (
+      <ProtectedRoute>
+        <Failed />
+      </ProtectedRoute>
+    ),
   },
 ]);
 
