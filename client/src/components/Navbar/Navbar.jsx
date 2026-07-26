@@ -28,17 +28,21 @@ const Navbar = () => {
         <Link to="/contact">Contact</Link>
 
         {isAuthenticated ? (
-          <>
-            <span className="font-medium">{user?.name}</span>
+  <>
+    <Link to="/wishlist">Wishlist</Link>
 
-            <button
-              onClick={handleLogout}
-              className="text-red-400 hover:text-red-300"
-            >
-              Logout
-            </button>
-          </>
-        ) : (
+    <Link to="/my-inquiries">My Inquiries</Link>
+
+    <Link to="/profile">{user?.name}</Link>
+
+    <button
+      onClick={handleLogout}
+      className="text-red-400 hover:text-red-300"
+    >
+      Logout
+    </button>
+  </>
+) : (
           <>
             <Link to="/login">Login</Link>
 

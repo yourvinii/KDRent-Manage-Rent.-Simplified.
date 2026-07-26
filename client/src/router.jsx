@@ -6,13 +6,16 @@ import Register from "./pages/authPage/Register";
 import Explore from "./pages/HomePage/Explore";
 import ProtectedRoute from "./routes/ProtectedRoute";
 
-
+// Public
 import Listing from "./pages/Public/Listing/Listing";
 import PropertyDetails from "./pages/Public/PropertyDetails/PropertyDetails";
 import About from "./pages/Public/About/About";
 import Contact from "./pages/Public/Contact/Contact";
 
-
+// Buyer
+import Wishlist from "./pages/Buyer/Wishlist/Wishlist";
+import Profile from "./pages/Buyer/Profile/Profile";
+import MyInquiries from "./pages/Buyer/MyInquires/MyInquiries";
 
 const router = createBrowserRouter([
   {
@@ -44,24 +47,48 @@ const router = createBrowserRouter([
             </h1>
           </ProtectedRoute>
         ),
-        
       },
       {
-  path: "/listing",
-  element: <Listing />,
-},
-{
-  path: "/property/:id",
-  element: <PropertyDetails />,
-},
-{
-  path: "/about",
-  element: <About />,
-},
-{
-  path: "/contact",
-  element: <Contact />,
-},
+        path: "/listing",
+        element: <Listing />,
+      },
+      {
+        path: "/property/:id",
+        element: <PropertyDetails />,
+      },
+      {
+        path: "/about",
+        element: <About />,
+      },
+      {
+        path: "/contact",
+        element: <Contact />,
+      },
+
+      {
+        path: "/wishlist",
+        element: (
+          <ProtectedRoute>
+            <Wishlist />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "/profile",
+        element: (
+          <ProtectedRoute>
+            <Profile />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "/my-inquiries",
+        element: (
+          <ProtectedRoute>
+            <MyInquiries />
+          </ProtectedRoute>
+        ),
+      },
     ],
   },
 ]);
