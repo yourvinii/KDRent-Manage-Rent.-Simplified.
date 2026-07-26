@@ -4,7 +4,9 @@ import Home from "./pages/HomePage/Home";
 import Login from "./pages/authPage/Login";
 import Register from "./pages/authPage/Register";
 import Explore from "./pages/HomePage/Explore";
+
 import ProtectedRoute from "./routes/ProtectedRoute";
+import RoleProtectedRoute from "./routes/RoleProtectedRoute";
 
 // Public
 import Listing from "./pages/Public/Listing/Listing";
@@ -16,6 +18,20 @@ import Contact from "./pages/Public/Contact/Contact";
 import Wishlist from "./pages/Buyer/Wishlist/Wishlist";
 import Profile from "./pages/Buyer/Profile/Profile";
 import MyInquiries from "./pages/Buyer/MyInquires/MyInquiries";
+
+//Seller
+import SellerDashboard from "./pages/Seller/Dashboard/Dashboard";
+import MyProperties from "./pages/Seller/MyProperties/MyProperties";
+import EditProperty from "./pages/Seller/EditProperty/EditProperty";
+import Application from "./pages/Seller/Applications/Application";
+import AddProperties from "./pages/Seller/AddProperties/AddProperties";
+
+//Admin
+import Dashboard from "./pages/Admin/Dashboard/Dashboard";
+import Approvals from "./pages/Admin/Approvals/Approvals";
+import Inquiries from "./pages/Admin/Inquiries/Inquiries";
+import Properties from "./pages/Admin/Properties/Properties";
+import Users from "./pages/Admin/Users/Users";
 
 const router = createBrowserRouter([
   {
@@ -48,6 +64,7 @@ const router = createBrowserRouter([
           </ProtectedRoute>
         ),
       },
+
       {
         path: "/listing",
         element: <Listing />,
@@ -64,7 +81,7 @@ const router = createBrowserRouter([
         path: "/contact",
         element: <Contact />,
       },
-
+      // Buyer
       {
         path: "/wishlist",
         element: (
@@ -87,6 +104,87 @@ const router = createBrowserRouter([
           <ProtectedRoute>
             <MyInquiries />
           </ProtectedRoute>
+        ),
+      },
+      //seller
+      {
+        path: "/seller/dashboard",
+        element: (
+          <RoleProtectedRoute allowedRoles={["seller"]}>
+            <SellerDashboard />
+          </RoleProtectedRoute>
+        ),
+      },
+      {
+        path: "/seller/my-properties",
+        element: (
+          <RoleProtectedRoute allowedRoles={["seller"]}>
+            <MyProperties />
+          </RoleProtectedRoute>
+        ),
+      },
+      {
+        path: "/seller/add-property",
+        element: (
+          <RoleProtectedRoute allowedRoles={["seller"]}>
+            <AddProperties />
+          </RoleProtectedRoute>
+        ),
+      },
+      {
+        path: "/seller/edit-property/:id",
+        element: (
+          <RoleProtectedRoute allowedRoles={["seller"]}>
+            <EditProperty />
+          </RoleProtectedRoute>
+        ),
+      },
+      {
+        path: "/seller/applications",
+        element: (
+          <RoleProtectedRoute allowedRoles={["seller"]}>
+            <Application />
+          </RoleProtectedRoute>
+        ),
+      },
+      {
+        path: "/admin/dashboard",
+        element: (
+          <RoleProtectedRoute allowedRoles={["admin"]}>
+            <Dashboard />
+          </RoleProtectedRoute>
+        ),
+      },
+      {
+        path: "/admin/users",
+        element: (
+          <RoleProtectedRoute allowedRoles={["admin"]}>
+            <Users />
+          </RoleProtectedRoute>
+        ),
+      },
+      {
+        path: "/admin/properties",
+        element: (
+          <RoleProtectedRoute allowedRoles={["admin"]}>
+            <Properties />
+          </RoleProtectedRoute>
+        ),
+      },
+      {
+        path: "/admin/inquiries",
+        element: (
+          <RoleProtectedRoute allowedRoles={["admin"]}>
+            <Inquiries />
+          </RoleProtectedRoute>
+        ),
+      },
+      {
+        path: "/admin/approvals",
+        element: (
+          <RoleProtectedRoute allowedRoles={["admin"]}>
+            <Approvals />
+          </RoleProtectedRoute>
         ),
       },
     ],

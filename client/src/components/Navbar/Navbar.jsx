@@ -28,21 +28,43 @@ const Navbar = () => {
         <Link to="/contact">Contact</Link>
 
         {isAuthenticated ? (
-  <>
-    <Link to="/wishlist">Wishlist</Link>
+          <>
+            {user?.role === "buyer" && (
+              <>
+                <Link to="/wishlist">Wishlist</Link>
+                <Link to="/my-inquiries">My Inquiries</Link>
+              </>
+            )}
 
-    <Link to="/my-inquiries">My Inquiries</Link>
+            {user?.role === "seller" && (
+              <>
+                <Link to="/seller/dashboard">Dashboard</Link>
+                <Link to="/seller/my-properties">My Properties</Link>
+                <Link to="/seller/add-property">Add Property</Link>
+                <Link to="/seller/applications">Applications</Link>
+              </>
+            )}
 
-    <Link to="/profile">{user?.name}</Link>
+            {user?.role === "admin" && (
+              <>
+                <Link to="/admin/dashboard">Dashboard</Link>
+                <Link to="/admin/users">Users</Link>
+                <Link to="/admin/properties">Properties</Link>
+                <Link to="/admin/inquiries">Inquiries</Link>
+                <Link to="/admin/approvals">Approvals</Link>
+              </>
+            )}
 
-    <button
-      onClick={handleLogout}
-      className="text-red-400 hover:text-red-300"
-    >
-      Logout
-    </button>
-  </>
-) : (
+            <Link to="/profile">{user?.name}</Link>
+
+            <button
+              onClick={handleLogout}
+              className="text-red-400 hover:text-red-300"
+            >
+              Logout
+            </button>
+          </>
+        ) : (
           <>
             <Link to="/login">Login</Link>
 
