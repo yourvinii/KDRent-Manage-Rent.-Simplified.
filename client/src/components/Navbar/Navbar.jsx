@@ -7,7 +7,7 @@ const Navbar = () => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-      // Future: Call logout API if required
+    // Future: Call logout API if required
     logout();
     navigate("/");
   };
@@ -21,9 +21,11 @@ const Navbar = () => {
       <div className="flex gap-10 items-center">
         <Link to="/">Home</Link>
 
-        <Link to="/explore">Explore</Link>
-
         <Link to="/listing">Listing</Link>
+
+        <Link to="/about">About</Link>
+
+        <Link to="/contact">Contact</Link>
 
         {isAuthenticated ? (
           <>

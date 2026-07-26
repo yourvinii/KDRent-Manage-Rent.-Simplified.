@@ -6,6 +6,14 @@ import Register from "./pages/authPage/Register";
 import Explore from "./pages/HomePage/Explore";
 import ProtectedRoute from "./routes/ProtectedRoute";
 
+
+import Listing from "./pages/Public/Listing/Listing";
+import PropertyDetails from "./pages/Public/PropertyDetails/PropertyDetails";
+import About from "./pages/Public/About/About";
+import Contact from "./pages/Public/Contact/Contact";
+
+
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -36,7 +44,24 @@ const router = createBrowserRouter([
             </h1>
           </ProtectedRoute>
         ),
+        
       },
+      {
+  path: "/listing",
+  element: <Listing />,
+},
+{
+  path: "/property/:id",
+  element: <PropertyDetails />,
+},
+{
+  path: "/about",
+  element: <About />,
+},
+{
+  path: "/contact",
+  element: <Contact />,
+},
     ],
   },
 ]);
