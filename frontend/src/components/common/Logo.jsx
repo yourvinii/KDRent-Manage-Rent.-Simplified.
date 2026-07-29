@@ -11,15 +11,15 @@ const Logo = ({
 }) => {
   return (
     <Link
-      to="/"
+      to={"/"}
       {...props}
-      className={`${s.link} ${props.className || ""}  `}
+      className={`${s.link} ${props.className || ""} `}
       style={{ fontSize, ...props.style }}
     >
       <div className={s.iconWrapper}>
         <HiOutlineLibrary size={iconSize} />
+        {showText && <span className={s.text}>RealEState</span>}
       </div>
-      {showText && <span className={s.text}>RealEState</span>}
     </Link>
   );
 };

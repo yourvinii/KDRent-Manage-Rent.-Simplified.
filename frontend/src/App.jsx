@@ -1,12 +1,12 @@
 import React from "react";
-import { Route, Routes } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import LandingPage from "./pages/shared/LandingPage";
-
 const App = () => {
   return (
-    <div>
+    <div >
+      
       <Routes>
-        <Route path="/" element={<LandingPage/>} />
+        <Route path="/" element={<LandingPage />} />
       </Routes>
     </div>
   );
