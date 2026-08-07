@@ -1,12 +1,11 @@
-import React from "react";
-import { landingPageStyles as s } from "../../assets/dummyStyles.js";
-import Navbar from "../../components/common/Navbar.jsx";
+import HeroSection from "../../components/home/HeroSection";
+import FeaturedProperties from "../../components/home/FeaturedProperties";
+import HowItWorks from "../../components/home/HowItWorks";
+import PropertyStats from "../../components/home/PropertyStats";
+
 const LandingPage = () => {
   return (
-    <div className={s.bgMain}  >
-<Navbar/>
-
-    </div>
+    <><HeroSection /><FeaturedProperties /><HowItWorks /><PropertyStats /></>
   );
 };
 
